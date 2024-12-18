@@ -1,8 +1,8 @@
-## Linux Basics: [grep](#filtering-grep), [sort](#sort), [uniq](#uniq), [cut](#cut-filter-columns), [paste](#paste-combine-columns), [wc](#wc-word-count), [diff](#diff-whats-the-difference)
+# Linux Basics: [grep](#filtering-grep), [sort](#sort), [uniq](#uniq), [cut](#cut-filter-columns), [paste](#paste-combine-columns), [wc](#wc-word-count), [diff](#diff-whats-the-difference)
 
 In this section, you will learn some basic operations that will change your life.
 
-### Filtering: `grep`
+## Filtering: `grep`
 
 One of the basic questions we want to answer if a file (or stream; e.g. STDIN) contians
 an expression or not, or to keep the lines that contain it or count them.
