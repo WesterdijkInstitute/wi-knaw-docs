@@ -1,0 +1,10 @@
+name: mkdocs
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - mkdocs
+  - pip:
+    - mkdocs-mermaid2-plugin
+    - pymdown-extensions
+

@@ -1,0 +1,9 @@
+# text editor generated backup files                                                                                    
+*~                                                                                                                      
+
+# hide sensitive content
+docs/data/overview.md
+docs/biolomics/
+
+# mkdocs
+site/

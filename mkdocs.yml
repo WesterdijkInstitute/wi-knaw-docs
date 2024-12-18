@@ -1,0 +1,49 @@
+site_name: WI-KNAW Docs
+theme: readthedocs
+use_directory_urls: false
+plugins:
+    - mermaid2
+
+extra_javascript:
+    - https://unpkg.com/mermaid/dist/mermaid.min.js
+    - javascripts/config.js
+    - https://polyfill.io/v3/polyfill.min.js?features=es6
+    - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+markdown_extensions:
+    - pymdownx.arithmatex:
+        generic: true
+
+nav:
+- 'Welcome' : 'index.md'
+- 'Communities': 'communities.md'
+- 'Biolomics': 'biolomics/biolomics.md'
+- 'Data and Compute':
+  - 'Overview': 'data/overview.md'
+  - 'Data science resources': 'data/data-science-res.md'
+- 'Linux':
+  - 'Text editing': 'linux/text-editing.md'
+  - 'Linux basics 01': 'linux/linux-basics-01.md'
+  - 'Linux basics 02': 'linux/linux-basics-02.md'
+  - 'Linux basics 03': 'linux/linux-basics-03.md'
+  - 'Linux basics 04': 'linux/linux-basics-04.md'
+  - 'Command line shortcuts': 'linux/shortcuts.md'
+  - 'tmux & screen': 'linux/tmux.md'
+  - 'Process management': 'linux/process-management.md'
+  - 'API and HTTP': 'linux/API-basics.md'
+  - 'Git': 'linux/git.md'
+- 'Pipelines':
+  - 'Snakemake': 'pipelines/snakemake.md'
+- 'Formats':
+  - 'Webformats': 'formats/web-formats.md'
+  - 'MarkDown': 'formats/markdown.md'
+  - 'RMarkDown': 'formats/rmarkdown.md'
+- 'Tools':
+  - 'FASTA-tools': 'tools/fasta_tools.md'
+  #- 'ANI-tools': 'tools/ANI-tools.md'
+  - 'Simple NWK tools': 'tools/simple-nwk-tools.md'
+- 'Pangenomics':
+  - 'Pangenomics in general': 'pangenomics/index.md'
+- 'Tutorials':
+  #- 'Exploring genomic data': 'tutorials/exploring-genomic-data.md'
+  - 'Using complex data structures': 'tutorials/complex-data-structures.md'
+  - 'Starting with READMEs': 'tutorials/Starting-with-READMEs.md'
