@@ -94,6 +94,7 @@ git clone https://github.com/git/git-reference
 
 ## Resources
 
+- [Git Cheat Sheet](https://education.github.com/git-cheat-sheet-education.pdf)
 - [Learn the Basics of Git in Under 10 Minutes](https://www.freecodecamp.org/news/learn-the-basics-of-git-in-under-10-minutes-da548267cc91/):
   most of the content on this page is copied from this resource
 - [GitHub][GitHub]:
@@ -157,6 +158,8 @@ To revert a folder or file to the last commit version
 
 ```bash
 git checkout -- $target
+# Or you can use HEAD instead of --
+git checkout HEAD $target
 ```
 
 To remove every file and subdirectory not tracked in the current working directory
