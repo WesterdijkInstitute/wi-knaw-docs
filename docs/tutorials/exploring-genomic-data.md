@@ -2,83 +2,59 @@
 
 For this example we use assemblies from NCBI of _Liberibacter_ spp.
 
+```yaml
+name: explore-genomes
+channels:
+  - conda-forge
+  - bioconda
+  - b-brankovics
+  - nodefaults
+dependencies:
+  - b-brankovics::ani-typer
+  - conda-forge::ncbi-datasets-cli
+  # ANI calculation
+  - pyani
+  - fastani
+  # R and R packages for tree-*heatmap.R
+  - r-base=4.3
+  - r-dendextend
+  - r-phylogram
+  - r-phangorn
+  - r-circlize
+  - bioconductor-complexheatmap
+  - r-viridis
+  # # ggtre
+  - bioconductor-ggtree
+  # NJ tree from distance matrix
+  - bioconda::perl-bioperl
+  - bioconda::newick_utils
+```
+
+
 ## Collect data and metadata from NCBI
 
-The taxonID of _Liberibacter_ is `34019`.
-Using the `get-assembly-overview-for-taxon.pl` script we can query the NCBI DB
-for all assemblies belonging to this taxon and its subtaxa. The script will
-create a tab-delimited file with metadata on the assemblies.
+The following lines download all available genomes form NCBI and also extract the metadta
 
-> Available in [https://git.wur.nl/brank001/bioinfo404/](https://git.wur.nl/brank001/bioinfo404/) at `pages/API-sequence-databases/get-assembly-overview-for-taxon.pl`
-
-```
-get-assembly-overview-for-taxon.pl 34019 >assembly-metadata.tsv 2>log
-```
-
-The first 5 lines of the metadata file will look like this (run on 4th of May 2021):
-```
-# AssemblyID    TaxID   SpeciesName     Isolate BioSampleAccn   AssemblyName    LastMajorReleaseAccession       LatestAccession FtpPath_GenBank
-9788391 34020   Candidatus Liberibacter africanus       Ang37   SAMN15222106    ASM1786934v1    GCF_017869345.1         ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/017/869/345/GCA_017869345.1_ASM1786934v1/GCA_017869345.1_ASM1786934v1_genomic.fna.gz
-9220911 2020335 Candidatus Liberibacter ctenarytainae   Oxford  SAMN10841822    ASM1680829v1    GCA_016808295.1         ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/016/808/295/GCA_016808295.1_ASM1680829v1/GCA_016808295.1_ASM1680829v1_genomic.fna.gz
-9188681 34021   Candidatus Liberibacter asiaticus       PA20    SAMN13475837    ASM1675815v1    GCF_016758155.1         ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/016/758/155/GCA_016758155.1_ASM1675815v1/GCA_016758155.1_ASM1675815v1_genomic.fna.gz
-8248261 34021   Candidatus Liberibacter asiaticus       A-SBCA19        SAMN16263571    ASM1489265v1    GCF_014892655.1         ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/014/892/655/GCA_014892655.1_ASM1489265v1/GCA_014892655.1_ASM1489265v1_genomic.fna.gz
+```bash
+# conda-forge::ncbi-datasets-cli is needed and unzip
+datasets download genome taxon Liberibacter --include genome --dehydrated --filename liberi-genomes.zip
+unzip liberi-genomes.zip -d dehydrated
+datasets rehydrate --directory dehydrated
+dataformat tsv genome --fields accession,assminfo-biosample-accession,assmstats-total-sequence-len,organism-name,organism-tax-id,organism-infraspecific-isolate,organism-infraspecific-strain,assminfo-refseq-category --package liberi-genomes.zip >assembly-metadata.tsv
 ```
 
-It is also interesting to see the last three lines:
-```
-127911  34021   Candidatus Liberibacter asiaticus       A4      SAMN02665901    A4 genome assembly      GCF_000590865.1 GCF_000590865.3 ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/590/865/GCA_000590865.1_A4_genome_assembly/GCA_000590865.1_A4_genome_assembly_genomic.fna.gz
-80291   1261131 Candidatus Liberibacter americanus      Sao Paulo       SAMN02604175    ASM49659v1      GCF_000496595.1         ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/496/595/GCA_000496595.1_ASM49659v1/GCA_000496595.1_ASM49659v1_genomic.fna.gz
-44408   537021  Candidatus Liberibacter asiaticus       psy62   SAMN02603311    ASM2376v1       GCF_000023765.1 GCF_000023765.2
-```
+Now we can move all the genomes to a `genomes` folder. Also renaming them using only their IDs.
 
-All but the last entry have an FTP link which makes it easy to download the assemblies.
-But you can notice that `LastMajorReleaseAccession` is not always the same as `LatestAccession`. In many entries `LatestAccession` isn't even defined.
-To get the latest version of the assembly we have to select the value from these two columns that is the highest value. For example with the following line:
-```
-cat assembly-metadata.tsv | cut -f7,8 | perl -ne 's/\R//; ($id) = reverse sort split/\t/; print "$id\n"' >latest
-```
-
-With `cut` we select the two columns of interest.
-Then custom perl script splits each line by `\t` (tabs) and sorts them
-in alphanumeric order that we reverse afterwards, the highest one is printed for each line (also we start by removing line endings at the start, which we add back at the end),
-which is saved to `latest`.
-
-> Available in [https://git.wur.nl/brank001/bioinfo404/](https://git.wur.nl/brank001/bioinfo404/) at `pages/API-sequence-databases/generate-new-ftp.pl`
-
-Need to generate new FTP path for the genomes to get the latest possible version based on the metadata:
-```
-perl generate-new-ftp.pl assembly-metadata.tsv >updated-assembly-metadata.tsv
-```
-
-Now we can download all the genomes to a `genomes` folder.
-```
+```bash
 mkdir genomes
-cd genomes
-cut -f10 ../updated-assembly-metadata.tsv | grep -v FtpPath | perl -ne 's/ftp:/rsync:/; s/$/ \./; print "rsync -tLv $_"' | bash >download.log
+for file in dehydrated/ncbi_dataset/data/*/*_genomic.fna; do directory_name=$(dirname $file); accession=$(basename $directory_name); ln $file genomes/$accession\.fna; done
 ```
 
-> Previously, I used wget for donwloading. But NCBI recommends using `rsync`.
-> For example: `rsync -tLv rsync://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/020/976/085/GCA_020976085.1_ASM2097608v1/GCA_020976085.1_ASM2097608v1_genomic.fna.gz .`
+Let's create genome list file with all the genomes:
 
-Actually, this list has some duplicates unfortunatelly. This you can see in the `genomes` folder already, there are 2 copies of three genomes.
-Besides these there are two more superflous copies that are simply different versions of the same assemblies.
-Luckily the extra copies that have older versions were not downloaded, so we only need to clear up the metadata file for consistency.
-
-We can check which entries are missing by doing the following:
-```
-ls *.gz >got-em
-perl -ne ' if (/\t/) {/\/([^\/]+\.gz)/; print unless $got{$1}} else {s/\R+//g; $got{$_}++}' got-em ../updated-assembly-metadata.tsv
-# You can get rid off `got-em` so it looks cleaner
-rm got-em
-# Let's clean up the names to make them a bit shorter, so only the unique sequence ID with version number remains and the extention
-rename 's/(\.\d+)_.+genomic/$1/' *.gz
-```
-
-Let's unzip them and then move out of the genomes folder
-```
-gunzip *.gz
-ls * >../list
-cd ..
+```bash
+cd genomes/
+ls *.fna >../genomes.list
 ```
 
 ## Annotate genomes
@@ -101,7 +77,7 @@ To build the command to run all of them, we can use the following perl script.
 > Store file name as `$file`. Remove folder `genomes/` from the file name and remove the extension. Then print the command using the two variables.
 
 ```
-cat list | sed 's/\.fna//' | perl -ne 's/\R//g; print "prokka --gram neg --outdir prokka/$_ --prefix $_ --genus Liberibacter genomes/$_\.fna\n"' >prokka.sh
+cat genomes.list | sed 's/\.fna//' | perl -ne 's/\R//g; print "prokka --gram neg --outdir prokka/$_ --prefix $_ --genus Liberibacter genomes/$_\.fna\n"' >prokka.sh
 # Or
 perl -e 'for(@ARGV){ $file = $_; s/\.fna//; s/genomes\///; print "prokka --gram neg --outdir prokka/$_ --prefix $_ --genus Liberibacter $file\n"}' genomes/*.fna >prokka.sh
 ```
@@ -116,7 +92,7 @@ bash prokka.sh >prokka.log 2>prokka.err
 
 ## ANI analysis
 
-> You can find more info and useful scripts at [microbiome/home ANI page](https://git.wur.nl/microbiome/home/-/tree/master/Scripts-and-Workflows/ANI).
+> You can find more info and useful scripts at [https://github.com/b-brankovics/ani-typer/](https://github.com/b-brankovics/ani-typer/).
 > A useful tool is [pyani](https://github.com/widdowquinn/pyani).
 
 Average nucleotide identity (ANI) is a category of computational analysis that can be used to define species boundaries of Archaea and Bacteria.
@@ -131,7 +107,7 @@ Let's use [pyani](https://github.com/widdowquinn/pyani) to calculate ANI scores:
 average_nucleotide_identity.py -i genomes/ -o pyani-out/ -m ANIm
 ```
 
-In order to visualize the results, we will use the tools from [microbiome/home ANI page](https://git.wur.nl/microbiome/home/-/tree/master/Scripts-and-Workflows/ANI).
+In order to visualize the results, we will use the tools from [https://github.com/b-brankovics/ani-typer/](https://github.com/b-brankovics/ani-typer/).
 
 ```
 # Convert ANI scores (TSV) to phylip format distances (d = 1 - ANI)
@@ -237,7 +213,7 @@ GCA_014048425.1	Candidatus Liberibacter sp. Z1
 ```
 
 Now we can classify each strain based on the ANI score using `ani-typer.pl`
-from [microbiome/home ANI page](https://git.wur.nl/microbiome/home/-/tree/master/Scripts-and-Workflows/ANI).
+from [https://github.com/b-brankovics/ani-typer/](https://github.com/b-brankovics/ani-typer/).
 
 ```
 ani-typer.pl -ani pyani-out/ANIm_percentage_identity.tab -type types.csv | cut -f1,2 | sed 's/solanacearum ./solanacearum/' >species-calls.tsv
