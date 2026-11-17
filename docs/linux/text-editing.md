@@ -33,7 +33,7 @@ When working with text we have three big classes (that are not mutually exclusiv
     + nano (CLI)
     + emacs (CLI)
     + vim (CLI)
-    + joe (CLI; default editor on moya)
+    + joe (CLI)
 - **IDEs** (**I**ntegrated **D**evelopment **E**nvironment):
   An Integrated Development Environment is a special type of application which contains a lot of
   different functions and features for development software. Typically, an IDE often consists of

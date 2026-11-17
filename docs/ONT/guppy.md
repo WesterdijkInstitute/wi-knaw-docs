@@ -36,7 +36,7 @@ Other commands in the folder:
 
 > source: [https://github.com/nanoporetech/dorado](https://github.com/nanoporetech/dorado)
 
-## Basecalling minION data on moya with Guppy
+## Basecalling minION data with Guppy
 
 Basecalling of minION data using CPUs is possible with Guppy.
 

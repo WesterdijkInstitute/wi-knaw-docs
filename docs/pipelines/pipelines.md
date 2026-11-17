@@ -2,8 +2,9 @@
 
 The major pipeline tools:
 
-- Snakemake
-- Nextflow
+- [Snakemake](https://snakemake.readthedocs.io/en/stable/)
+- [Nextflow](https://www.nextflow.io/)
+- [Common Workflow Language (CWL)](https://www.commonwl.org/)
 
 ## Pipeline ideas
 
@@ -19,9 +20,8 @@ Modules:
 Check for inspiration:
 
 - [Bactopia](https://journals.asm.org/doi/10.1128/msystems.00190-20)
-- WUR MLSA and ANI pipeline
-- WUR virus NGS diagnostic pipeline
-- WUR bacterial-pipeline.snakemake (contains lastal)
+- [MLSA and ANI pipeline (snakemake-mlsa-ani)](https://github.com/westerdijk-wm/snakemake-mlsa-ani)
+- [Snakemake workflow: smkwf-bwa-gatk-snpeff](https://github.com/westerdijk-wm/smkwf-bwa-gatk-snpeff)
 
 ## Nextflow
 

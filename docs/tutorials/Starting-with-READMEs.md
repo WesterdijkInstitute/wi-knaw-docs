@@ -107,8 +107,7 @@ and/or check out the resources listed on the [MarkDown page](../formats/markdown
 
 ## Software environment
 
-> - Describe where the analysis is executed (e.g. moya, CLC workbench, WSL on
->   own laptop).
+> - Describe where the analysis is executed (e.g. server "x", Geneous, CLC workbench, WSL on work desktop, WSL on own laptop).
 > - Mention if a conda environment is used (bonus point if you can provide an
 >   environment.yaml to reproduce the environment), or other such tool (e.g. docker)
 > - Version of the tools used
