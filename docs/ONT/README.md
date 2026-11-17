@@ -30,7 +30,7 @@ Assemblers:
 - [RATTLE](#rattle): simple assembler using clustering and consensus generation
 - [miniasm](#miniasm): simple, but frequently not useful
 - [Trycycler](https://github.com/rrwick/Trycycler/wiki): is not a stand alone assembler, but wrapper for a number of tools resulting in an assembly pipeline for bacterial genomes. Tedious to install and use, but with very good results and intermediate visualizations.
-        -used with [flye](#flye), [canu](#canu), [miniasm and minipolish](#https://github.com/rrwick/Minipolish/blob/main/miniasm_and_minipolish.sh), [NECAT](https://github.com/xiaochuanle/NECAT) and [raven](https://github.com/lbcb-sci/raven)
+        -used with [flye](#flye), [canu](#canu), [miniasm and minipolish](https://github.com/rrwick/Minipolish/blob/main/miniasm_and_minipolish.sh), [NECAT](https://github.com/xiaochuanle/NECAT) and [raven](https://github.com/lbcb-sci/raven)
 
 Based on personal experience (Balazs) [flye](#flye),[shasta](#shasta) and [RATTLE](#rattle)
 appear to be most useful in most cases, because of the shorter runtime and
