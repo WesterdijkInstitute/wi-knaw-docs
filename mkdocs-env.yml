@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - python=3.12
   - mkdocs
   - pip:
     - mkdocs-mermaid2-plugin
