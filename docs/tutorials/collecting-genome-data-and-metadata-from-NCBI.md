@@ -133,7 +133,7 @@ Here, I included `assminfo-biosample-accession`, so we can see that some samples
 
 Let's see how we can use ENTREZ on the command line and how it compares to NCBI's website.
 
-> [Official documentation](https://www.ncbi.nlm.nih.gov/books/NBK25499/))
+> [Official documentation](https://www.ncbi.nlm.nih.gov/books/NBK25499/)
 
 ### Look up based on taxon name or ID
 
