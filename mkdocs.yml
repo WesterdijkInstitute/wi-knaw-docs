@@ -15,10 +15,7 @@ markdown_extensions:
 
 nav:
 - 'Welcome' : 'index.md'
-- 'Communities': 'communities.md'
-- 'Biolomics': 'biolomics/biolomics.md'
 - 'Data and Compute':
-  - 'Overview': 'data/overview.md'
   - 'Data science resources': 'data/data-science-res.md'
 - 'Linux':
   - 'Text editing': 'linux/text-editing.md'

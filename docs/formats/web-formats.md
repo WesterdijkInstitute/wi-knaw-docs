@@ -66,7 +66,6 @@ and with different added extra features (like adding images or tables):
 - [GitHub Markdown](https://guides.github.com/features/mastering-markdown/)
 - [Rmarkdown](https://rmarkdown.rstudio.com/lesson-8.html) ([Cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf))
 - [GitLab Markdown](https://about.gitlab.com/handbook/product/technical-writing/markdown-guide/)
-([git.wur.nl](https://git.wur.nl/) is also GitLab)
 
 
 Example of a formated text:

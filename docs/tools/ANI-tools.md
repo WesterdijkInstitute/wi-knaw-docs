@@ -1,6 +1,6 @@
 # ANI tools
 
-> Available at [Git@WUR:microbiome/home](https://git.wur.nl/microbiome/home/-/tree/master/Scripts-and-Workflows/ANI)
+> Available at [GitHub:b-brankovics/ani-typer](https://github.com/b-brankovics/ani-typer)
 
 ANI stands for Average Nucleotide Identity
 

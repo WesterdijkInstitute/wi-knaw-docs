@@ -13,7 +13,7 @@ user@computer:/current/path$
 This line usually contains some useful information:
 
 - username
-- computer name (`scomp1641` on moya)
+- computer name
 - current location (what you would get with `pwd`)
 
 ## Command
